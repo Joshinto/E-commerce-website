@@ -1,5 +1,5 @@
 import Link from "next/link";
-import productCard from "./productCard";
+import ProductCard from "./productCard";
 
 const featuredProducts = [
   {
@@ -78,7 +78,7 @@ export default function FeaturedProducts() {
         {/* Products */}
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {featuredProducts.map((product) => (
-            <productCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>
