@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider } from "../context/cartContext";
 import { WishlistProvider } from "../context/wishlistContext";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "JoshintoStore",
@@ -17,7 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <CartProvider>
-          <WishlistProvider>{children}</WishlistProvider>
+          <WishlistProvider>
+            {children}
+            <Footer />
+          </WishlistProvider>
         </CartProvider>
       </body>
     </html>
