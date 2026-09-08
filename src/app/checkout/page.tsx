@@ -514,13 +514,39 @@ export default function CheckoutPage() {
             </div>
 
             {/* PLACE ORDER */}
-            <button
-              type="button"
-              onClick={handlePlaceOrder}
-              className="mt-6 w-full rounded-lg bg-gray-900 px-6 py-4 font-semibold text-white transition hover:bg-blue-600"
-            >
-              Place Order
-            </button>
+             <button
+                type="button"
+                onClick={() => {
+                    const isValid = validateForm();
+
+                    if (!isValid) {
+                    return;
+                    }
+
+                    const order = {
+                    orderNumber: `JS${Date.now()}`,
+                    customer: formData,
+                    paymentMethod,
+                    items: cartItems,
+                    total: cartTotal,
+                    status: "Processing",
+                    createdAt: new Date().toISOString(),
+                    };
+
+                    localStorage.setItem(
+                    "joshinto-order",
+                    JSON.stringify(order)
+                    );
+
+                    clearCart();
+
+                    router.push("/order-success");
+                }}
+                className="mt-6 w-full rounded-lg bg-gray-900 px-6 py-4 font-semibold text-white transition hover:bg-blue-600"
+                >
+                Place Order
+                </button>
+
           </div>
         </div>
       </div>
