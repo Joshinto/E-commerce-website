@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import {
   createContext,
   useContext,
@@ -9,13 +11,13 @@ import {
 } from "react";
 
 type Product = {
-  id: number;
+  id: number | string;
   name: string;
-  category: string;
+  category?: string;
   price: number;
   oldPrice?: number;
-  rating: number;
-  reviews: number;
+  rating?: number;
+  reviews?: number;
   image: string;
 };
 
@@ -26,9 +28,9 @@ type CartItem = Product & {
 type CartContextType = {
   cartItems: CartItem[];
   addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
-  increaseQuantity: (productId: number) => void;
-  decreaseQuantity: (productId: number) => void;
+  removeFromCart: (productId: number | string) => void;
+  increaseQuantity: (productId: number | string) => void;
+  decreaseQuantity: (productId: number | string) => void;
   clearCart: () => void;
   cartCount: number;
   cartTotal: number;
@@ -100,14 +102,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   // Remove product
-  const removeFromCart = (productId: number) => {
+  const removeFromCart = (productId: number | string) => {
     setCartItems((currentItems) =>
       currentItems.filter((item) => item.id !== productId)
     );
   };
 
   // Increase quantity
-  const increaseQuantity = (productId: number) => {
+  const increaseQuantity = (productId: number | string) => {
     setCartItems((currentItems) =>
       currentItems.map((item) =>
         item.id === productId
@@ -121,7 +123,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   // Decrease quantity
-  const decreaseQuantity = (productId: number) => {
+  const decreaseQuantity = (productId: number | string) => {
     setCartItems((currentItems) =>
       currentItems
         .map((item) =>

@@ -108,28 +108,17 @@ export default function CheckoutPage() {
       items: cartItems,
       total: cartTotal,
       status: "Processing",
+      createdAt: new Date().toISOString(),
     };
 
     const savedOrders = localStorage.getItem("joshinto-orders");
+    const existingOrders = savedOrders ? JSON.parse(savedOrders) : [];
 
-const existingOrders = savedOrders
-  ? JSON.parse(savedOrders)
-  : [];
-
-const updatedOrders = [
-  order,
-  ...existingOrders,
-];
-
-localStorage.setItem(
-  "joshinto-orders",
-  JSON.stringify(updatedOrders)
-);
-
-localStorage.setItem(
-  "joshinto-order",
-  JSON.stringify(order)
-);
+    localStorage.setItem(
+      "joshinto-orders",
+      JSON.stringify([order, ...existingOrders])
+    );
+    localStorage.setItem("joshinto-order", JSON.stringify(order));
 
 
     clearCart();
@@ -535,36 +524,11 @@ localStorage.setItem(
             {/* PLACE ORDER */}
              <button
                 type="button"
-                onClick={() => {
-                    const isValid = validateForm();
-
-                    if (!isValid) {
-                    return;
-                    }
-
-                    const order = {
-                    orderNumber: `JS${Date.now()}`,
-                    customer: formData,
-                    paymentMethod,
-                    items: cartItems,
-                    total: cartTotal,
-                    status: "Processing",
-                    createdAt: new Date().toISOString(),
-                    };
-
-                    localStorage.setItem(
-                    "joshinto-order",
-                    JSON.stringify(order)
-                    );
-
-                    clearCart();
-
-                    router.push("/order-success");
-                }}
+                onClick={handlePlaceOrder}
                 className="mt-6 w-full rounded-lg bg-gray-900 px-6 py-4 font-semibold text-white transition hover:bg-blue-600"
-                >
+              >
                 Place Order
-                </button>
+              </button>
 
           </div>
         </div>

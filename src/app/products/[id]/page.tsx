@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Heart, ShoppingCart, Star } from "lucide-react";
-import QuantitySelector from "../../../components/quantitySelector";
+import { ArrowLeft, Star } from "lucide-react";
+import ProductActions from "../../../components/productActions";
 
 const products = [
   {
@@ -54,6 +54,56 @@ const products = [
       "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=80",
     description:
       "A stylish leather backpack with enough space for your everyday essentials, work equipment, and accessories.",
+  },
+  {
+    id: 5,
+    name: "Minimalist Chair",
+    category: "Home & Living",
+    price: 95000,
+    rating: 4.7,
+    reviews: 52,
+    image:
+      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80",
+    description:
+      "A comfortable minimalist chair designed to bring practical style to your home or workspace.",
+  },
+  {
+    id: 6,
+    name: "Premium Sunglasses",
+    category: "Fashion",
+    price: 35000,
+    oldPrice: 45000,
+    rating: 4.4,
+    reviews: 73,
+    image:
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1200&q=80",
+    description:
+      "Premium sunglasses with a timeless frame for comfortable everyday wear.",
+  },
+  {
+    id: 7,
+    name: "Modern Camera",
+    category: "Electronics",
+    price: 280000,
+    rating: 4.9,
+    reviews: 91,
+    image:
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80",
+    description:
+      "Capture clear, detailed photos with this modern camera built for creative work.",
+  },
+  {
+    id: 8,
+    name: "Leather Handbag",
+    category: "Accessories",
+    price: 75000,
+    oldPrice: 95000,
+    rating: 4.6,
+    reviews: 61,
+    image:
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1200&q=80",
+    description:
+      "A spacious leather handbag that combines everyday function with refined style.",
   },
 ];
 
@@ -179,40 +229,7 @@ export default async function ProductPage({
               {product.description}
             </p>
 
-            {/* Quantity */}
-            <div className="mt-8">
-              <p className="mb-3 text-sm font-semibold text-gray-900">
-                Quantity
-              </p>
-
-              <QuantitySelector productName={product.name} />
-            </div>
-
-            {/* Actions */}
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button
-                type="button"
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gray-900 px-6 py-4 font-semibold text-white transition hover:bg-blue-600"
-              >
-                <ShoppingCart size={20} />
-                Add to Cart
-              </button>
-
-              <button
-                type="button"
-                aria-label="Add product to wishlist"
-                className="flex h-14 w-14 items-center justify-center rounded-lg border border-gray-300 transition hover:bg-gray-100"
-              >
-                <Heart size={21} />
-              </button>
-            </div>
-
-            <button
-              type="button"
-              className="mt-3 w-full rounded-lg border border-gray-900 px-6 py-4 font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white"
-            >
-              Buy Now
-            </button>
+            <ProductActions product={product} />
 
             {/* Extra Information */}
             <div className="mt-10 border-t border-gray-200 pt-6">

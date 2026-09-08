@@ -19,35 +19,35 @@ export default function Navbar() {
         <nav className="hidden items-center gap-8 md:flex">
           <Link
             href="/"
-            className="text-sm font-medium text-blue-600 transition hover:text-blue-700"
+            className="text-sm font-bold text-blue-600 transition hover:text-blue-700"
           >
             Home
           </Link>
 
           <Link
             href="/shop"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            className="text-sm font-bold text-gray-600 transition hover:text-gray-900"
           >
             Shop
           </Link>
 
           <Link
             href="/categories"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            className="text-sm font-bold text-gray-600 transition hover:text-gray-900"
           >
             Categories
           </Link>
 
           <Link
             href="/about"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            className="text-sm font-bold text-gray-600 transition hover:text-gray-900"
           >
             About
           </Link>
 
           <Link
             href="/contact"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            className="text-sm font-bold text-gray-600 transition hover:text-gray-900"
           >
             Contact
           </Link>
@@ -56,13 +56,13 @@ export default function Navbar() {
         {/* Actions */}
         <div className="flex items-center gap-5">
           {/* Search */}
-          <button
-            type="button"
-            aria-label="Search"
+          <Link
+            href="/shop"
+            aria-label="Search products"
             className="text-gray-600 transition hover:text-gray-900"
           >
             <Search size={21} />
-          </button>
+          </Link>
 
           {/* Wishlist */}
           <Link
@@ -90,11 +90,11 @@ export default function Navbar() {
 
           {/* Login */}
           <Link
-            href="/login"
+            href="/orders"
             className="hidden items-center gap-2 rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 sm:flex"
           >
             <User size={17} />
-            Login
+            My Orders
           </Link>
         </div>
       </div>

@@ -7,13 +7,13 @@ import { useCart } from "../context/cartContext";
 import { useWishlist } from "../context/wishlistContext";
 
 type Product = {
-  id: number;
+  id: number | string;
   name: string;
   category: string;
   price: number;
   oldPrice?: number;
-  rating: number;
-  reviews: number;
+  rating?: number;
+  reviews?: number;
   image: string;
 };
 
@@ -30,92 +30,103 @@ export default function ProductCard({ product }: ProductCardProps) {
     isInWishlist,
   } = useWishlist();
 
-  const liked = isInWishlist(product.id);
+  const isWishlisted = isInWishlist(product.id);
+
+  const handleWishlist = () => {
+    if (isWishlisted) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
 
   return (
-    <div className="group">
+    <div className="group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
-        <Link href={`/products/${product.id}`}>
+      <div className="relative h-64 w-full overflow-hidden bg-gray-100">
+        <Link href={`/product/${product.id}`}>
           <Image
             src={product.image}
             alt={product.name}
             fill
             className="object-cover transition duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
         </Link>
 
-        {/* Wishlist */}
+        {/* Wishlist Button */}
         <button
           type="button"
+          onClick={handleWishlist}
           aria-label={
-            liked
+            isWishlisted
               ? "Remove from wishlist"
               : "Add to wishlist"
           }
-          onClick={() => {
-            if (liked) {
-              removeFromWishlist(product.id);
-            } else {
-              addToWishlist(product);
-            }
-          }}
-          className={`absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition ${
-            liked
-              ? "text-red-500"
-              : "text-gray-700 hover:bg-gray-900 hover:text-white"
-          }`}
+          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition hover:scale-110"
         >
           <Heart
-            size={18}
-            className={liked ? "fill-red-500" : ""}
+            size={20}
+            className={
+              isWishlisted
+                ? "fill-red-500 text-red-500"
+                : "text-gray-600"
+            }
           />
         </button>
 
-        {/* Sale Badge */}
-        {product.oldPrice && (
-          <span className="absolute left-4 top-4 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
-            Sale
+        {/* Discount */}
+        {product.oldPrice && product.oldPrice > product.price && (
+          <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
+            {Math.round(
+              ((product.oldPrice - product.price) /
+                product.oldPrice) *
+                100
+            )}
+            % OFF
           </span>
         )}
       </div>
 
-      {/* Product Details */}
-      <div className="mt-4">
-        <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+      {/* Product Information */}
+      <div className="p-4">
+        <p className="mb-1 text-sm text-gray-500">
           {product.category}
         </p>
 
-        <Link href={`/products/${product.id}`}>
-          <h3 className="mt-1 text-lg font-semibold text-gray-900 transition hover:text-blue-600">
+        <Link href={`/product/${product.id}`}>
+          <h3 className="line-clamp-2 text-lg font-semibold text-gray-900 hover:text-blue-600">
             {product.name}
           </h3>
         </Link>
 
         {/* Rating */}
-        <div className="mt-2 flex items-center gap-2">
-          <div className="flex items-center">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Star
-                key={star}
-                size={15}
-                className={
-                  star <= Math.round(product.rating)
-                    ? "fill-yellow-400 text-yellow-400"
-                    : "text-gray-300"
-                }
-              />
-            ))}
-          </div>
+        {product.rating !== undefined && (
+          <div className="mt-2 flex items-center gap-1">
+            <Star
+              size={16}
+              className="fill-yellow-400 text-yellow-400"
+            />
 
-          <span className="text-xs text-gray-500">
-            ({product.reviews})
-          </span>
-        </div>
+            <span className="text-sm font-medium">
+              {product.rating}
+            </span>
+
+            {product.reviews !== undefined && (
+              <span className="text-sm text-gray-500">
+                ({product.reviews})
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Price */}
-        <div className="mt-3 flex items-center gap-3">
-          <span className="text-lg font-bold text-gray-900">
+        <div className="mt-3 flex items-center gap-2">
+          <span className="text-xl font-bold text-gray-900">
             ₦{product.price.toLocaleString()}
           </span>
 
@@ -129,10 +140,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Add to Cart */}
         <button
           type="button"
-          onClick={() => addToCart(product)}
-          className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-gray-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-600"
+          onClick={handleAddToCart}
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 font-medium text-white transition hover:bg-gray-800"
         >
-          <ShoppingCart size={17} />
+          <ShoppingCart size={18} />
           Add to Cart
         </button>
       </div>

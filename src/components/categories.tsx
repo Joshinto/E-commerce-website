@@ -61,10 +61,7 @@ export default function Categories() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((category) => (
             <Link
-              href={`/categories/${category.name
-                .toLowerCase()
-                .replaceAll(" ", "-")
-                .replace("&", "and")}`}
+              href={`/shop?category=${encodeURIComponent(category.name)}`}
               key={category.name}
               className="group"
             >

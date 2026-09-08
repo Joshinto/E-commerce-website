@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+
+import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/productCard";
 
@@ -104,6 +106,16 @@ export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("featured");
+
+  useEffect(() => {
+    const category = new URLSearchParams(window.location.search).get(
+      "category"
+    );
+
+    if (category && categories.includes(category)) {
+      setSelectedCategory(category);
+    }
+  }, []);
 
   const filteredProducts = products
     .filter((product) => {
