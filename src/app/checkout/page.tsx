@@ -182,7 +182,7 @@ export default function CheckoutPage() {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="Joshua"
+                    placeholder="First Name"
                     className={`mt-2 w-full rounded-lg border px-4 py-3 outline-none ${
                       errors.firstName
                         ? "border-red-500"
@@ -212,7 +212,7 @@ export default function CheckoutPage() {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    placeholder="Makinde"
+                    placeholder="Last Name"
                     className={`mt-2 w-full rounded-lg border px-4 py-3 outline-none ${
                       errors.lastName
                         ? "border-red-500"
@@ -272,7 +272,7 @@ export default function CheckoutPage() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="07014054889"
+                    placeholder="Telephone Number"
                     className={`mt-2 w-full rounded-lg border px-4 py-3 outline-none ${
                       errors.phone
                         ? "border-red-500"
