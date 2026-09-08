@@ -110,10 +110,29 @@ export default function CheckoutPage() {
       status: "Processing",
     };
 
-    localStorage.setItem("joshinto-order", JSON.stringify(order));
+    const savedOrders = localStorage.getItem("joshinto-orders");
+
+const existingOrders = savedOrders
+  ? JSON.parse(savedOrders)
+  : [];
+
+const updatedOrders = [
+  order,
+  ...existingOrders,
+];
+
+localStorage.setItem(
+  "joshinto-orders",
+  JSON.stringify(updatedOrders)
+);
+
+localStorage.setItem(
+  "joshinto-order",
+  JSON.stringify(order)
+);
+
 
     clearCart();
-
     router.push("/order-success");
   };
 
