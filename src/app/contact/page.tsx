@@ -301,26 +301,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* FAQ CTA */}
-      <section className="bg-white px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
-            Looking for quick answers?
-          </h2>
-
-          <p className="mt-3 text-gray-600">
-            Check our frequently asked questions for answers to common
-            questions about orders, payments, and delivery.
-          </p>
-
-          <a
-            href="/faq"
-            className="mt-6 inline-block rounded-lg bg-gray-900 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
-          >
-            Visit FAQ
-          </a>
-        </div>
-      </section>
     </main>
   );
 }
