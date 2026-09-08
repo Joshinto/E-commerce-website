@@ -1,10 +1,40 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: Request) {
   try {
+    // Check environment variables
+    const apiKey = process.env.RESEND_API_KEY;
+    const contactEmail = process.env.CONTACT_EMAIL;
+
+    if (!apiKey) {
+      console.error("RESEND_API_KEY is missing");
+
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Email service is not configured.",
+        },
+        { status: 500 }
+      );
+    }
+
+    if (!contactEmail) {
+      console.error("CONTACT_EMAIL is missing");
+
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Contact email is not configured.",
+        },
+        { status: 500 }
+      );
+    }
+
+    // Create Resend instance after checking the API key
+    const resend = new Resend(apiKey);
+
+    // Read request body
     const body = await request.json();
 
     const {
@@ -39,28 +69,41 @@ export async function POST(request: Request) {
       );
     }
 
+    // Send email
     const { error } = await resend.emails.send({
       from: "Joshinto Contact <onboarding@resend.dev>",
-      to: process.env.CONTACT_EMAIL as string,
+      to: [contactEmail],
       replyTo: email,
       subject: `Joshinto Contact: ${subject}`,
       html: `
         <h2>New Contact Message</h2>
 
-        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+        <p>
+          <strong>Name:</strong>
+          ${firstName} ${lastName}
+        </p>
 
-        <p><strong>Email:</strong> ${email}</p>
+        <p>
+          <strong>Email:</strong>
+          ${email}
+        </p>
 
-        <p><strong>Subject:</strong> ${subject}</p>
+        <p>
+          <strong>Subject:</strong>
+          ${subject}
+        </p>
 
         <hr />
 
         <h3>Message</h3>
 
-        <p>${message.replace(/\n/g, "<br />")}</p>
+        <p>
+          ${message.replace(/\n/g, "<br />")}
+        </p>
       `,
     });
 
+    // Handle Resend error
     if (error) {
       console.error("Resend error:", error);
 
@@ -73,6 +116,7 @@ export async function POST(request: Request) {
       );
     }
 
+    // Success
     return NextResponse.json(
       {
         success: true,
